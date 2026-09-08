@@ -384,3 +384,6 @@ The test suite validates all requirements specified in Assignment 8:
    - `GET /api/members/expired` retrieves all expired accounts.
 4. **Postman Collection**:
    - Import `gym_management_api.postman_collection.json` directly into Postman to run all requests with pre-configured request payloads.
+  
+
+DEPLOYMENT LINK - https://assignment-8-gym-management-api-6r9t.onrender.com/
