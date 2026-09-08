@@ -1,0 +1,326 @@
+{
+  "info": {
+    "_postman_id": "c1f7b8d4-5784-4863-95b1-123456789abc",
+    "name": "Gym & Fitness Center Management API - ITM Assignment 08",
+    "description": "Comprehensive Postman Test Collection for the Gym Management REST API with session authentication, class bookings, capacity validation, and membership renewal.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:5001",
+      "type": "string"
+    },
+    {
+      "key": "classId",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "memberId",
+      "value": "",
+      "type": "string"
+    }
+  ],
+  "item": [
+    {
+      "name": "1. Authentication",
+      "item": [
+        {
+          "name": "Register New Member (3 Months Gold)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"username\": \"fit_sam\",\n  \"email\": \"sam@fit.com\",\n  \"password\": \"mypassword\",\n  \"membershipTier\": \"Gold\",\n  \"durationMonths\": 3,\n  \"emergencyContact\": \"+1-555-0199\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/auth/register",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "auth", "register"]
+            },
+            "description": "Registers a new gym member with 3-month duration. Returns 201 Created and calculated membershipExpiryDate."
+          },
+          "response": []
+        },
+        {
+          "name": "Register Member 2 (1 Month Bronze)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"username\": \"alex_runner\",\n  \"email\": \"alex@fit.com\",\n  \"password\": \"mypassword\",\n  \"membershipTier\": \"Bronze\",\n  \"durationMonths\": 1\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/auth/register",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "auth", "register"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Register Member 3 (Capacity Tester)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"username\": \"john_lifter\",\n  \"email\": \"john@fit.com\",\n  \"password\": \"mypassword\",\n  \"membershipTier\": \"Silver\",\n  \"durationMonths\": 1\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/auth/register",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "auth", "register"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Login (fit_sam)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"username\": \"fit_sam\",\n  \"password\": \"mypassword\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/auth/login",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "auth", "login"]
+            },
+            "description": "Authenticates user via Passport Local Strategy and establishes session cookie."
+          },
+          "response": []
+        },
+        {
+          "name": "Get Current Profile & Remaining Days",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/auth/me",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "auth", "me"]
+            },
+            "description": "Protected route fetching active session member profile and remaining membership days."
+          },
+          "response": []
+        },
+        {
+          "name": "Logout",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/auth/logout",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "auth", "logout"]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "2. Fitness Classes & Booking",
+      "item": [
+        {
+          "name": "Create Workout Class (Max Capacity 2)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"title\": \"HIIT Bootcamp\",\n  \"trainerName\": \"John Davis\",\n  \"scheduleDate\": \"2026-04-20T08:00:00.000Z\",\n  \"durationMinutes\": 45,\n  \"maxCapacity\": 2\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/classes",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "classes"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Create Workout Class 2 (Zumba Cardio)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"title\": \"Zumba Cardio\",\n  \"trainerName\": \"Maria\",\n  \"scheduleDate\": \"2026-04-15T09:00:00.000Z\",\n  \"durationMinutes\": 60,\n  \"maxCapacity\": 20\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/classes",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "classes"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Fetch All Classes",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/classes",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "classes"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Filter Classes by Trainer (?trainer=Maria)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/classes?trainer=Maria",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "classes"],
+              "query": [
+                {
+                  "key": "trainer",
+                  "value": "Maria"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Class Details by ID",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/classes/{{classId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "classes", "{{classId}}"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Book Class (Session Member 1 - Success)",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/classes/{{classId}}/book",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "classes", "{{classId}}", "book"]
+            },
+            "description": "Enrolls the currently authenticated member into the class."
+          },
+          "response": []
+        },
+        {
+          "name": "Book Class (Capacity Failure - 400 Bad Request)",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/classes/{{classId}}/book",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "classes", "{{classId}}", "book"]
+            },
+            "description": "Fails with 400 Bad Request: 'Class capacity reached' once maximum seats are filled."
+          },
+          "response": []
+        },
+        {
+          "name": "Cancel Class Booking",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/classes/{{classId}}/cancel",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "classes", "{{classId}}", "cancel"]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "3. Membership Management",
+      "item": [
+        {
+          "name": "Renew / Extend Membership",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"additionalMonths\": 6,\n  \"tier\": \"Platinum\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/members/{{memberId}}/renew",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "members", "{{memberId}}", "renew"]
+            },
+            "description": "Extends membership expiry date from max(today, currentExpiry) by additionalMonths."
+          },
+          "response": []
+        },
+        {
+          "name": "Get Expired Memberships",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/members/expired",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "members", "expired"]
+            },
+            "description": "Fetches all members whose membershipExpiryDate < current date or status is expired."
+          },
+          "response": []
+        }
+      ]
+    }
+  ]
+}
